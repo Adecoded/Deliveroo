@@ -1,22 +1,43 @@
-import { StatusBar } from 'expo-status-bar';
-import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import {asset} from './assets/constant/asset'
-export default function App() {
+import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+import { TailwindProvider } from 'tailwindcss-react-native'
+import { NavigationContainer } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import HomeScreen from './screens/HomeScreen';
+import ResturantScreen from './screens/ResturantScreen'
+import { Provider } from 'react-redux';
+import { store } from './store';
+import BasketScreen from './screens/BasketScreen';
+import PreparingScreen from './screens/PreparingScreen';
+import DeliveryScreen from './screens/DeliveryScreen';
+const Stack = createNativeStackNavigator();
+const App = () => {
   return (
-    <SafeAreaView style={styles.container}>
-    <View>
-      <Image source={asset.Main} style={{width:40,height:40,}}/>
-      <Text>hello world</Text>
-      <StatusBar style="auto" />
-    </View>
-    </SafeAreaView>
-  );
+    <NavigationContainer>
+      <Provider store={store}>
+    <TailwindProvider>
+    <Stack.Navigator>
+      <Stack.Screen name='Home' component={HomeScreen}/>
+      <Stack.Screen name='Resturant' component={ResturantScreen}/>
+      <Stack.Screen name='Basket' component={BasketScreen}
+      options={{ presentation:'modal',headerShown:false }}
+       
+   
+      />
+      <Stack.Screen name='OrderPlaced' component={PreparingScreen}
+      options={{ presentation:'fullScreenModal',headerShown:false }} />
+      <Stack.Screen name='Delivery' component={DeliveryScreen} options={{
+        presentation:'fullScreenModal',headerShown:false
+
+      }}/>
+
+    </Stack.Navigator>
+    </TailwindProvider>
+    </Provider>
+    </NavigationContainer>
+  )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FCEFE3',
-    
-  },
-});
+export default App
+
+const styles = StyleSheet.create({})
